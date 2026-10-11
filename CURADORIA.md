@@ -1,6 +1,6 @@
 # Curadoria dos materiais
 
-Direção: editorial humana, verde da marca, fundo claro, tipografia Newsreader e DM Sans. Equipe na abertura, dois caminhos de atendimento com a mesma identidade; site multipágina desde a revisão 3. Foram mantidos materiais reais; nenhuma imagem de profissional, paciente ou ambiente foi gerada.
+Direção: editorial e minimalista, uma única cor de marca (petróleo) em cabeçalho, fechamento e rodapé, fundo papel, tipografia Newsreader e DM Sans. Equipe na abertura, dois caminhos de atendimento com a mesma identidade; site multipágina desde a revisão 3. Foram mantidos materiais reais; nenhuma imagem de profissional, paciente ou ambiente foi gerada.
 
 | Material | Conteúdo | Qualidade | Uso / ajuste |
 |---|---|---|---|
