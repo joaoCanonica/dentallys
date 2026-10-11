@@ -51,7 +51,7 @@ for (const f of ALL) {
   if (title.length < 30 || title.length > 60) err(f, `title com ${title.length} caracteres (30-60)`);
   const desc = decode(meta(h, 'description') || '');
   if (desc.length < 70 || desc.length > 160) err(f, `description com ${desc.length} caracteres (70-160)`);
-  if (!/<html lang="pt-BR">/.test(h)) err(f, 'lang pt-BR ausente');
+  if (!/<html lang="pt-BR"[ >]/.test(h)) err(f, 'lang pt-BR ausente');
 
   // Head SEO
   if (indexable) {
@@ -126,6 +126,11 @@ for (const f of ALL) {
   const navItems = (hd.match(/<nav class="site-nav"[\s\S]*?<\/nav>/) || [''])[0].match(/<a /g) || [];
   if (navItems.length !== 8) err(f, `menu com ${navItems.length} links (esperado 5 páginas + telefone + rota + agendar)`);
 
+  // Pendências ficam em docs/PENDENCIAS.md, nunca no HTML publicado
+  if (/<!--\s*PENDENTE/i.test(h)) err(f, 'comentário PENDENTE no HTML (mover para docs/PENDENCIAS.md)');
+  // Logo bitmap (150 px) nunca acima de 64 px no cabeçalho
+  for (const m of hd.matchAll(/<img\b[^>]*>/g)) if (+attr(m[0], 'width') > 64 || +attr(m[0], 'height') > 64) err(f, 'imagem acima de 64 px no cabeçalho');
+
   // Termos proibidos no texto visível
   const vis = visible(h).toLowerCase();
   for (const t of PROIBIDOS) {
@@ -140,21 +145,23 @@ for (const f of siteFiles) {
   const s = read(f);
   if (/Google Fonts|fonts\.googleapis|gstatic/i.test(s)) err(f, 'referência a Google Fonts');
   if (/@import/.test(s)) err(f, '@import encontrado');
+  if (/Newsreader/i.test(s)) err(f, 'fonte Newsreader ainda referenciada');
   for (const m of s.matchAll(/<(?:link|script|img|iframe)\b[^>]*(?:src|href)="https?:[^"]*"[^>]*>/g)) {
     if (!/rel="canonical"/.test(m[0])) err(f, `recurso externo carregado: ${m[0].slice(0, 90)}`);
   }
 }
 const css = read('css/site.css');
 const rootBlock = (css.match(/:root\{[\s\S]*?\}/) || [''])[0];
-const nonToken = css.replace(rootBlock, '').match(/#[0-9a-f]{3,8}\b/gi);
+const nonToken = css.replace(rootBlock, '').match(/#[0-9a-f]{3,8}\b(?![\w-])/gi);
 if (nonToken) err('css/site.css', `cor hex fora dos tokens: ${nonToken.join(', ')}`);
 
 // Contraste AA dos pares usados
 const tok = Object.fromEntries([...rootBlock.matchAll(/--([\w-]+):(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]));
 const lum = (hex) => { const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
 const ratio = (a, b) => { const [x, y] = [lum(tok[a]), lum(tok[b])].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
-const PAIRS = [['ink', 'paper'], ['muted', 'paper'], ['brand', 'paper'], ['ink', 'tint'], ['muted', 'tint'], ['brand', 'tint'],
-  ['on-brand', 'brand'], ['on-brand-muted', 'brand'], ['brand', 'on-brand'], ['on-brand', 'brand-strong'], ['on-brand-muted', 'brand-strong']];
+const PAIRS = [['ink', 'cream'], ['muted', 'cream'], ['forest', 'cream'], ['forest-2', 'cream'], ['ink', 'white'], ['muted', 'white'], ['forest', 'white'],
+  ['ink', 'sage-soft'], ['muted', 'sage-soft'], ['forest', 'sage-soft'], ['forest-2', 'sage-soft'], ['ink', 'blush'], ['muted', 'blush'], ['forest', 'blush'], ['forest-2', 'blush'],
+  ['white', 'forest'], ['white', 'forest-2'], ['on-dark-muted', 'forest'], ['on-dark-muted', 'forest-2'], ['sage-soft', 'forest'], ['forest', 'white'], ['ink', 'sage']];
 for (const [a, b] of PAIRS) { const r = ratio(a, b); if (r < 4.5) err('css/site.css', `contraste ${a} sobre ${b} = ${r.toFixed(2)} (< 4,5)`); }
 
 // Sitemap
