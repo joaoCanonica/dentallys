@@ -9,6 +9,7 @@ const PERMITIDOS = [];
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ASSETS, hashOf } from './versionar-assets.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = (readFileSync(join(ROOT, 'robots.txt'), 'utf8').match(/Sitemap:\s*(https?:\/\/[^/\s]+)/) || [])[1];
@@ -101,7 +102,7 @@ for (const f of ALL) {
     if (/^(https?:|tel:|mailto:)/.test(r)) continue;
     if (r.startsWith('#')) { if (r.length > 1 && !h.includes(`id="${r.slice(1)}"`)) err(f, `âncora inexistente ${r}`); continue; }
     if (/\.html(#|$)/.test(r)) err(f, `link sem URL limpa: ${r}`);
-    const [path, hash] = r.split('#');
+    const [pathQ, hash] = r.split('#'); const path = pathQ.split('?')[0];
     const target = fileFor(path);
     if (!target) { err(f, `referência quebrada: ${r}`); continue; }
     if (hash && !read(target).includes(`id="${hash}"`)) err(f, `âncora inexistente ${r}`);
@@ -126,6 +127,12 @@ for (const f of ALL) {
   const navItems = (hd.match(/<nav class="site-nav"[\s\S]*?<\/nav>/) || [''])[0].match(/<a /g) || [];
   if (navItems.length !== 8) err(f, `menu com ${navItems.length} links (esperado 5 páginas + telefone + rota + agendar)`);
 
+  // CSS e JS sempre com ?v=<hash do conteúdo atual> (evita CSS/JS velhos no cache do visitante)
+  for (const [k, re] of [['css', /href="\/css\/site\.css(\?v=([^"]*))?"/], ['js', /src="\/js\/site\.js(\?v=([^"]*))?"/]]) {
+    const m = h.match(re);
+    if (!m) err(f, `referência a ${ASSETS[k]} ausente`);
+    else if (m[2] !== hashOf(ASSETS[k])) err(f, `${ASSETS[k]} sem ?v= ou com versão desatualizada: rode node scripts/versionar-assets.mjs`);
+  }
   // Pendências ficam em docs/PENDENCIAS.md, nunca no HTML publicado
   if (/<!--\s*PENDENTE/i.test(h)) err(f, 'comentário PENDENTE no HTML (mover para docs/PENDENCIAS.md)');
   // Logo bitmap (150 px) nunca acima de 64 px no cabeçalho
