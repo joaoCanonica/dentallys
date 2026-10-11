@@ -1,6 +1,6 @@
 # Curadoria dos materiais
 
-Direção: editorial humana, verde da marca, fundo claro, tipografia DM Sans e Georgia. Equipe na abertura, dois caminhos de atendimento com a mesma identidade e navegação em página única. Foram mantidos materiais reais; nenhuma imagem de profissional, paciente ou ambiente foi gerada.
+Direção: editorial humana, verde da marca, fundo claro, tipografia Newsreader e DM Sans. Equipe na abertura, dois caminhos de atendimento com a mesma identidade; site multipágina desde a revisão 3. Foram mantidos materiais reais; nenhuma imagem de profissional, paciente ou ambiente foi gerada.
 
 | Material | Conteúdo | Qualidade | Uso / ajuste |
 |---|---|---|---|
@@ -22,6 +22,6 @@ WhatsApp principal: (49) 99908-0777, internacional 5549999080777. Rua Simeão Mo
 
 A afirmação “todas as especialidades” não foi expandida em uma lista inventada. Foram apresentados os serviços efetivamente mencionados. Não foram acrescentados convênios, avaliações públicas, preços, depoimentos, número de pacientes ou tecnologia não informada.
 
-## Revisão 2
+## Revisão 3 (SEO, GEO e conformidade)
 
-IMG_8765 e IMG_8766 agora integram a galeria como publicações originais identificadas. Conversão para WebP sem reconstruir rostos, alterar resultados ou produzir comparações artificiais. Prévia com janela CSS; diálogo revela a publicação integral. As descrições do site não repetem promessas de ausência de riscos ou desvantagens presentes no material original. A logo passa a aparecer também no cabeçalho e no destaque de harmonização.
+As capturas IMG_8765 e IMG_8766 (publicações do Instagram com antes e depois e promessa de resultado) foram retiradas do site e do repositório (art. 44 do Código de Ética Odontológica, Res. CFO 196/2019). A foto da equipe foi recortada para eliminar as faixas pretas e o ícone da interface. O logo é exibido no máximo no tamanho natural (150 px). Formas de pagamento e o termo “especialista” saíram do texto. Tipografia passa a ser Newsreader e DM Sans, hospedadas no próprio site.
