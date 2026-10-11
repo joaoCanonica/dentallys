@@ -14,7 +14,7 @@ Site estático da Dentallys, clínica odontológica e de harmonização facial n
 | `privacidade.html` | `/privacidade` |
 | `404.html` | página de erro |
 
-`css/site.css` (único, cores só em tokens), `js/site.js` (menu, mapa sob clique, reveal), `assets/fonts` (fontes locais), `assets/img` (WebP otimizadas), `assets/og-dentallys.jpg` (1200×630).
+`css/site.css` (único, cores só em tokens), `js/site.js` (abertura da home, menu, aberto agora, mapa sob clique, reveal, vídeo opcional da hero), `assets/fonts` (Fraunces e DM Sans, locais), `assets/img` (WebP otimizadas), `assets/og-dentallys.jpg` (1200×630).
 
 Header e rodapé são idênticos em todas as páginas: ao editar um, copie o mesmo bloco nas outras.
 
@@ -30,15 +30,8 @@ A revisão segue o Código de Ética Odontológica (arts. 43 e 44) e a Res. CFO 
 
 ## Pendências do cliente
 
-1. Registro da especialidade da Dra. Fernanda no CRO-SC (nº) e confirmação da responsável técnica (considerando a decisão do TRF1 de 19/08/2026 sobre a Res. CFO 198/2019, em recurso). Sem isso, o site não usa “especialista”.
-2. Quem realiza ortodontia e clareamento, com CRO e especialidade registrada (art. 43, §1º).
-3. Se jato de plasma e Hidra Gloss Lips estão no escopo da profissional; manter ou retirar.
-4. Se a Dra. Barbara atende na Dentallys, em quais horários, e se “Otacílio Costa” fica no site.
-5. “Há mais de 20 anos”: confirmar o ano de fundação (permite `foundingDate`).
-6. Acessibilidade (banheiro para cadeirante): confirmar.
-7. Logo em vetor (SVG/PDF) e fotos originais em alta. Recomendado: ensaio fotográfico.
-8. Convênios, se houver.
-9. Imagens de casos: só com TCLE arquivado, nome e CRO na imagem, sem texto promocional.
-10. Domínio próprio; depois, rodar `definir-dominio.mjs` e adicionar na Vercel.
-11. Perfil da Empresa no Google com os mesmos dados e Google Search Console (enviar `sitemap.xml`).
-12. Harmonização facial: seguir `docs/DESATIVAR-HARMONIZACAO.md` ou ampliar a área quando houver definição.
+Ver `docs/PENDENCIAS.md`. Comentários `PENDENTE` não ficam no HTML publicado (o `check-site.mjs` reprova).
+
+## Verificação visual
+
+Capturas em 1440, 1024, 768 e 390 px em `docs/qa/`.
