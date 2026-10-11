@@ -20,6 +20,11 @@ Header e rodapé são idênticos em todas as páginas: ao editar um, copie o mes
 
 ## Comandos
 
+- Depois de editar `css/site.css` ou `js/site.js`, rode `node scripts/versionar-assets.mjs` (atualiza o `?v=` nos HTML).
+- Em seguida, rode `node scripts/check-site.mjs` (ele reprova CSS/JS sem versão ou com versão velha).
+- Fontes em `assets/fonts/` têm cache `immutable`: fonte nova ou alterada precisa de **nome de arquivo novo**, nunca sobrescreva um `.woff2`.
+- `node scripts/qa-cache.mjs`: testa visitante com CSS/JS antigos, CSS ou JS bloqueados e a abertura (precisa de Playwright fora do repositório).
+
 - `node scripts/check-site.mjs`: verifica SEO, JSON-LD, FAQ, links, imagens, NAP, header/rodapé, termos proibidos (CFO) e contraste. Rode antes de publicar.
 - `node scripts/definir-dominio.mjs https://novo-dominio`: troca a origem `https://dentallys.vercel.app` em todo o site.
 - Desligar a harmonização facial: `docs/DESATIVAR-HARMONIZACAO.md`.

@@ -17,14 +17,17 @@ var b=d.querySelector('.menu-btn'),n=d.getElementById('menu');
 if(b&&n){var set=function(o){n.classList.toggle('open',o);b.setAttribute('aria-expanded',o);b.textContent=o?'Fechar':'Menu'};
   b.addEventListener('click',function(){set(!n.classList.contains('open'))});
   d.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('open')){set(false);b.focus()}})}
-// Cabeçalho com sombra ao rolar e revelar seções
-var hd=d.querySelector('.site-header'),rv=[].slice.call(d.querySelectorAll('.reveal'));
-var tick=function(){hd&&hd.classList.toggle('scrolled',scrollY>8);var lim=innerHeight*.92;
-  rv=rv.filter(function(el){if(el.getBoundingClientRect().top<lim){el.classList.add('is-in');return false}return true})};
-addEventListener('scroll',function(){requestAnimationFrame(tick)},{passive:true});
-addEventListener('load',tick);addEventListener('hashchange',function(){rv.forEach(function(el){el.classList.add('is-in')});rv=[]});
-if(location.hash){rv.forEach(function(el){el.classList.add('is-in')});rv=[]}
-tick();
+// Cabeçalho com sombra ao rolar
+var hd=d.querySelector('.site-header');
+if(hd){var sh=function(){hd.classList.toggle('scrolled',scrollY>8)};addEventListener('scroll',sh,{passive:true});sh()}
+// Revelar seções: IntersectionObserver, com failsafe para nunca deixar conteúdo sumido
+var rv=[].slice.call(d.querySelectorAll('.reveal')),io=null;
+var all=function(){rv.forEach(function(el){el.classList.add('is-in')});if(io)io.disconnect()};
+if(!('IntersectionObserver' in window)||location.hash){all()}
+else{io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:0.01});
+  rv.forEach(function(el){io.observe(el)})}
+addEventListener('hashchange',all);
+var fs=function(){setTimeout(all,4000)};if(d.readyState==='complete')fs();else addEventListener('load',fs);
 // Aberto agora (horário de Lages)
 var chips=d.querySelectorAll('[data-status]');
 if(chips.length){
